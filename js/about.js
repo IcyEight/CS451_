@@ -5,7 +5,7 @@ $(window).load(function() {
 			template:"<span style='font-size:24px;></span>"
 		},
 		rows:[
-			{ type:"header", template:"About Checkers" }
+			{ type:"header", template:"About" }
 		]
 	});
 	webix.ui({
