@@ -25,15 +25,13 @@ $(window).load(function() {
 });
 
 function generateCode() {
-	// ajax call here
-	codeGenSuccess();
+	var status = "<?php echo $status>";
+	codeGenSuccess(status);
 };
 
-function codeGenSuccess() {
-	// parse returned data from generateCode to get code to display
-	var code;
+function codeGenSuccess(status) {
 	// update HTML content
-	codeGen.innerHTML = "Your code is " + code;
+	codeGen.innerHTML = status;
 	waiting.innerHTML = "Waiting for another player to join.";
 };
 
