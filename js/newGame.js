@@ -42,7 +42,7 @@ function codeGenFailure() {
 
 function cancel() {
 	// return to home screen if cancel is pressed
-	window.location.href = "home.html";
+	window.location.href = "index.html";
 };
 
 // once another player has joined using the code, call this function to direct to the game
