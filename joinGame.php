@@ -6,7 +6,6 @@
       $db = 'testcheckers';
       $host = 'localhost';
       $port = 8889;
-
       $link = mysqli_init();
       $success = mysqli_real_connect(
          $link, 
@@ -16,18 +15,15 @@
          $db,
          $port
       );
-
       if(!$success)
       {
         die('error connecting to database');
       }
       //echo "you have connected successfully.\n";
-
       if(isset($_POST['joinGame']))
       {
         /*Creating variables*/
         $code = $_POST["code"];
-
         $db_codes_query = "SELECT code FROM codetable"; 
         if($db_codes = mysqli_query($link, $db_codes_query)) 
         {
@@ -44,9 +40,7 @@
               echo $db_player_query;
               $temp3 = mysqli_query($link, $db_player_query);
               //var_dump($temp3);
-
               //echo $db_player_num_query . $db_player_query;
-
               // echo '<script type="text/javascript">
               //            window.location = "http://localhost:8888/CheckersGame/startGame.php"
               //       </script>';
@@ -67,15 +61,31 @@
   }
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Sudo Server Talk</title>
-</head>
-<body>
-<form method="post" >
-  Enter Code: <input type="text" name="code"><br>
-  <input type="submit" name="joinGame" value="Join Game">
-</form>
-</body>
+<!doctype html>
+	<head>
+		<html lang="en">
+		<script type="text/javascript" src="js/webix.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/webix.css">
+		<link rel="stylesheet" type="text/css" href="css/joinGame.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="js/joinGame.js"></script>
+		<meta charset="utf-8">
+		<title>Join Game</title>
+	</head>
+
+	<body>
+		<center>
+			<div id="joinGame"></div>
+			</br>
+			</br>
+			</br>
+			</br>
+			</br>
+			<div id="inputForm"></div>
+			</br>
+			</br>
+			</br>
+			<div id="cancel"></div>
+		</center>
+	</body>
 </html>
