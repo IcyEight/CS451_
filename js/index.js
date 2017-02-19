@@ -18,28 +18,40 @@ $(window).load(function() {
 	webix.ui({
 		view:"button",
 		container:"btn1",
-		id:"newGame", 
-		value:"New Game", 
-		width:100,
-		click:toNewGame
+		id:"about", 
+		value:"About", 
+		width:160,
+		click:toAbout
 	});
 	webix.ui({
 		view:"button",
 		container:"btn2",
-		id:"rules", 
-		value:"Rules", 
-		width:100,
+		id:"howTo", 
+		value:"How to Play Checkers", 
+		width:160,
 		click:toRules
 	});
 	webix.ui({
 		view:"button",
 		container:"btn3",
+		id:"newGame", 
+		value:"New Game", 
+		width:160,
+		click:toJoinGame
+	});
+	webix.ui({
+		view:"button",
+		container:"btn4",
 		id:"joinGame", 
 		value:"Join Game", 
-		width:100,
+		width:160,
 		click:toJoinGame
 	});
 });
+
+function toAbout() {
+	window.location.href = "about.html";
+};
 
 function toNewGame() {
 	window.location.href = "newGame.html";
