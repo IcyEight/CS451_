@@ -31,7 +31,13 @@
 	       	//echo $query_code_insert;
 	       	if(!mysqli_query($link, $query_code_insert))
 	       	{
-	       		echo "error saving to database";
+	       		//echo "error saving to database";
+	       		$status = "Error generating code";
+	       	}
+	       	else
+	       	{
+	       		$status = "Code generated successfully. Please provide
+	       		this code to someone to join with you : $codeGen";
 	       	}
 		}
     }
