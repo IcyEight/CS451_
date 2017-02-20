@@ -2,7 +2,7 @@
 	if($_SERVER['REQUEST_METHOD'] == 'GET') 
 	{
 		$user = 'root';
-	    $password = 'password';
+	    $password = 'root';
 	    $db = 'testcheckers';
 	    $host = 'localhost';
 	    $port = 8889;
@@ -20,14 +20,14 @@
 	    	die('error connecting to database');
 	    }
 	    //echo "you have connected successfully.\n";
-		if(isset($_GET['newGame'])) 
-		{
+		// if(isset($_GET['newGame'])) 
+		// {
 			$charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 			for($i=0; $i<6; $i++) 
 	           $codeGen .= $charset[(mt_rand(0,(strlen($charset)-1)))]; 
-	       	echo "give this code to someone 
-	       	to join with you : $codeGen";
-	       	$query_code_insert = "INSERT INTO codetable (code) VALUES ('$codeGen')";
+	       	// echo "give this code to someone 
+	       	// to join with you : $codeGen";
+	       	$query_code_insert = "INSERT INTO codetable (Code, TotalPlayer) VALUES ('$codeGen',1)";
 	       	//echo $query_code_insert;
 	       	if(!mysqli_query($link, $query_code_insert))
 	       	{
@@ -39,7 +39,7 @@
 	       		$status = "Code generated successfully. Please provide
 	       		this code to someone to join with you : $codeGen";
 	       	}
-		}
+		//}
     }
 ?>
 
@@ -64,10 +64,10 @@
 			</br>
 			</br>
 			</br>
-			<div id="codeGen"> Generating code... </div>
+			<div id="codeGen"><?php echo $status ?></div>
 			</br>
 			</br>
-			<div id="waiting"></div>
+			<!-- <div id="waiting"></div> -->
 			</br>
 			<div id="cancel"></div>
 			</br>

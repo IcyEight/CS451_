@@ -1,3 +1,4 @@
+var inputCode;
 $(window).load(function() {
 	webix.ui({
 		container:"joinGame",
@@ -14,7 +15,7 @@ $(window).load(function() {
 		container:"inputForm",
 		width:250,
 		elements:[
-			{ view:"text", label:"Enter your code:", labelWidth:125, width:225},
+			{ view:"text", id:"gameCode", label:"Enter your code:", labelWidth:125, width:225},
 			{ view:"button", value:"Submit", width:100, click:validateCode}
 		]
     });
@@ -30,18 +31,29 @@ $(window).load(function() {
 
 // call this function when the submit button is pressed
 function validateCode() {
-	/*
-		if code valid {
-			directToGame();
-		}
-		else {
-			window.alert("Code invalid.  Please enter a valid code.");
-		}
-	*/
+	inputCode = $$("gameCode").getValue();
+	// call post in php
+    $.ajax({
+        data: 'code=' + inputCode,
+        url: 'joinGame.php',
+        method: 'POST',
+        success: function(msg) {
+        	console.log(msg[0]);
+        	if(msg[0] == "1")
+        	{
+        		directToGame();
+        	}
+        	else
+        	{
+        		window.alert("More than two players can not play same game.")
+        	}
+       
+        }
+    });
 };
 
 function directToGame() {
-	
+	window.location.href = "mainBoard.php";
 };
 
 function cancel() {

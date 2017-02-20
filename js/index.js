@@ -1,11 +1,4 @@
-var newGame;
-var rules;
-var joinGame;
-
 $(window).load(function() {
-	newGame = document.getElementById('btn1');
-	rules = document.getElementById('btn2');
-	joinGame = document.getElementById('btn3');
 	webix.ui({
 		container:"welcome",
 		body:{
@@ -37,7 +30,7 @@ $(window).load(function() {
 		id:"newGame", 
 		value:"New Game", 
 		width:160,
-		click:toJoinGame
+		click:toNewGame
 	});
 	webix.ui({
 		view:"button",
@@ -54,7 +47,7 @@ function toAbout() {
 };
 
 function toNewGame() {
-	window.location.href = "newGame.html";
+	window.location.href = "newGame.php";
 };
 
 function toRules() {
@@ -62,5 +55,5 @@ function toRules() {
 };
 
 function toJoinGame() {
-	window.location.href = "joinGame.html";
+	window.location.href = "joinGame.php";
 };
