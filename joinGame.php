@@ -63,11 +63,11 @@
 <!doctype html>
 	<head>
 		<html lang="en">
-		<script type="text/javascript" src="../js/webix.js"></script>
-		<link rel="stylesheet" type="text/css" href="../css/webix.css">
-		<link rel="stylesheet" type="text/css" href="../css/joinGame.css">
+		<script type="text/javascript" src="js/webix.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/webix.css">
+		<link rel="stylesheet" type="text/css" href="css/joinGame.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		<script type="text/javascript" src="../js/joinGame.js"></script>
+		<script type="text/javascript" src="js/joinGame.js"></script>
 		<meta charset="utf-8">
 		<title>Join Game</title>
 	</head>
