@@ -43,17 +43,17 @@ $(window).load(function() {
 });
 
 function toAbout() {
-	window.location.href = "about.html";
+	window.location.href = "../html/about.html";
 };
 
 function toNewGame() {
-	window.location.href = "newGame.php";
+	window.location.href = "../php/newGame.php";
 };
 
 function toRules() {
-	window.location.href = "rules.html";
+	window.location.href = "../html/rules.html";
 };
 
 function toJoinGame() {
-	window.location.href = "joinGame.php";
+	window.location.href = "../php/joinGame.php";
 };

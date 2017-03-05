@@ -35,7 +35,7 @@ function validateCode() {
 	// call post in php
     $.ajax({
         data: 'code=' + inputCode,
-        url: 'joinGame.php',
+        url: '../php/joinGame.php',
         method: 'POST',
         success: function(msg) {
         	console.log(msg[0]);
@@ -53,9 +53,9 @@ function validateCode() {
 };
 
 function directToGame() {
-	window.location.href = "mainBoard.php";
+	window.location.href = "../php/mainBoard.php";
 };
 
 function cancel() {
-	window.location.href = "index.html";
+	window.location.href = "../html/index.html";
 };
