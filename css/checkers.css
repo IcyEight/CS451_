@@ -1,0 +1,38 @@
+.board{
+	width: 480px;
+	height: 480px;
+	display: inline-block;
+	position: center;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	background: red;
+}
+
+	.red_tile{
+		width: 60px;
+		height: 60px;
+		background: #ff0000;
+		display: inline-block;
+		position: absolute;
+		color: #fff;
+	}
+	
+	.black_tile{
+		width: 60px;
+		height: 60px;
+		background: #000000;
+		display: inline-block;
+		position: absolute;
+		color: #fff;
+	}
+	
+	.piece{
+		width: 45px;
+		height: 45px;
+		border: 2px solid white;
+		border-radius: 45px;
+		display: inline-block;
+		position: absolute;
+		color: #fff;
+	}
