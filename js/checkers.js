@@ -10,6 +10,7 @@ var newLocation = "";
 var board1;
 
 // default board and piece positions
+// red tiles are 0's and black tiles are 1's
 var gameBoard = [ 
 	[  0,  1,  0,  1,  0,  1,  0,  1 ],
 	[  1,  0,  1,  0,  1,  0,  1,  0 ],
@@ -20,6 +21,7 @@ var gameBoard = [
 	[  0,  1,  0,  1,  0,  1,  0,  1 ],
 	[  1,  0,  1,  0,  1,  0,  1,  0 ]
 ];
+// p1 pieces are 2's and p2 pieces are 3's.  Empty tiles are represented by 0's and 1's
 var piecesLocations = [ 
 	[  0,  3,  0,  3,  0,  3,  0,  3 ],
 	[  3,  0,  3,  0,  3,  0,  3,  0 ],
@@ -113,10 +115,6 @@ Board = function() {
 	// Initial Board
 	var boardheight = 8;
 	var boardwidth = 8;
-	var lightColorTiles = 0;
-	var darkColorTiles = 1;
-	var player1Pieces = 2;
-	var player2Pieces = 3;
 
 	this.outputBoard = function() {
 	// i corresponds to the row in the grid
