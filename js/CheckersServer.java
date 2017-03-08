@@ -46,6 +46,7 @@ class RequestHandler extends Thread
 				//Create new entry in db and get key
 				String s = CheckersDatabase.addNew();
 				//write new key out to client
+				out.writeObject(s);
 				break;
 			default:
 				//Lookup initString
@@ -53,18 +54,6 @@ class RequestHandler extends Thread
 				// write out the corresponding board
 				out.writeObject(b);
 			}
-			
-			
-			ArrayList<Integer> numbers = (ArrayList<Integer>) in.readObject();
-			ArrayList<Integer> processedNumbers = new ArrayList<Integer>();
-			
-			for(int i = 0; i < numbers.size(); i++)
-			{
-				if(numbers.get(i)%2!=0)
-					processedNumbers.add(numbers.get(i));
-			}
-			
-			out.writeObject(processedNumbers);
 			
 			out.close();
 			in.close();
