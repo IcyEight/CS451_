@@ -33,7 +33,7 @@ var piecesLocations = [
 var allPieces = [];
 var	p1Pieces = new Array();
 var	p2Pieces = new Array();
-var kingState = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+var kingState = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 var numP1Pieces = 12;
 var numP2Pieces = 12;
 
@@ -41,6 +41,12 @@ var numP2Pieces = 12;
 var p1Turn = true;
 var p2Turn = false;
 var swapTurns = true;
+
+// for representing the player (either player1 or player2)
+var playerNo = 1;
+
+// representing winner of the game
+var winner;
 
 $(document).ready(function() {
 	// initialize new board
@@ -81,20 +87,30 @@ function loadBoard() {
 	board1.outputBoard();
 	
 	// add checkers pieces to game board
-	p1Pieces.forEach(function(coords, i){
-	  allPieces[i] = new Piece(coords[0], coords[1], 'red', i, kingState[i]);
-	  allPieces[i].addPiece();
-	});
+	for(i = 0; i < p1Pieces.length; i++) {
+		var coordinates = p1Pieces[i];
+		allPieces[i] = new Piece(coordinates[0], coordinates[1], 'red', i, kingState[i]);
+		allPieces[i].addPiece();
+	}
+	for(i = 0; i < p2Pieces.length; i++) {
+		var coordinates = p2Pieces[i];
+		allPieces[i + p2Pieces.length] = new Piece(coordinates[0], coordinates[1], 'black', i + p2Pieces.length, kingState[i + p2Pieces.length]);
+		allPieces[i + p2Pieces.length].addPiece();
+	}
 	
-	p2Pieces.forEach(function(coords, i){
-	  allPieces[i+p2Pieces.length] = new Piece(coords[0], coords[1], 'black', i + p2Pieces.length, kingState[i+p2Pieces.length]);
-	  allPieces[i+p2Pieces.length].addPiece();
-	});	
+	orientBoard();
+}
+
+function orientBoard() {
+	if (playerNo == 2) {
+		// allow for spacing on rotate
+		document.getElementById("forRotate").innerHTML = "</br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>";
+		document.getElementById("checkersBoard").className = "rotateBoard";
+	}
 }
 
 Board = function() {
 	// Initial Board
-	var	self = this;
 	var boardheight = 8;
 	var boardwidth = 8;
 	var lightColorTiles = 0;
@@ -102,7 +118,7 @@ Board = function() {
 	var player1Pieces = 2;
 	var player2Pieces = 3;
 
-	self.outputBoard = function(){
+	this.outputBoard = function() {
 	// i corresponds to the row in the grid
 	for (var i = 0; i < boardheight; i++) {
 	    // j corresponds to the column in the grid
@@ -113,25 +129,25 @@ Board = function() {
 			if (tileCode == 0) {
 				if (pieceCode == 2 || pieceCode == 3) {
 					// no drop ability
-					$('#checkersBoard').append('<div class="red_tile" id="' + id + '" style="left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
+					$('#checkersBoard').append('<div class="tile" id="' + id + '" style="background: #ff0000; left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
 				}
 				else {
 					// drop ability
-					$('#checkersBoard').append('<div class="red_tile" id="' + id + '" ondrop="drop(event)" ondragover="allowDrop(event)" style="left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
+					$('#checkersBoard').append('<div class="tile" id="' + id + '" ondrop="drop(event)" ondragover="allowDrop(event)" style="background: #ff0000; left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
 				}
 			}
 			else if (tileCode == 1) {
 				if (pieceCode == 2 || pieceCode == 3) {
 					// no drop ability
-					$('#checkersBoard').append('<div class="black_tile" id="' + id + '" style="left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
+					$('#checkersBoard').append('<div class="tile" id="' + id + '" style="background: #000000; left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
 				}
 				else if ((j == 3 || j == 4) && (tileCode == 1 && pieceCode == 1)) {
 					// no drop ability
-					$('#checkersBoard').append('<div class="black_tile" id="' + id + '" style="left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
+					$('#checkersBoard').append('<div class="tile" id="' + id + '" style="background: #000000; left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
 				}
 				else {
 					// drop ability
-					$('#checkersBoard').append('<div class="black_tile" id="' + id + '" ondrop="drop(event)" ondragover="allowDrop(event)" style="left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
+					$('#checkersBoard').append('<div class="tile" id="' + id + '" ondrop="drop(event)" ondragover="allowDrop(event)" style="background: #000000; left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
 				}
 			}
 		}
@@ -139,25 +155,23 @@ Board = function() {
 	}
 }
 
-Board.getInstance = function(){
-  if(!this.instance){
-    this.instance = new this();
-  }
-  return this.instance;
+Board.getInstance = function() {
+	if (!this.instance) {
+		this.instance = new this();
+	}
+	return this.instance;
 };
 
-function Piece(i, j, color, id, isKing, isPlayerTurn){ 
-	var	self = this;
-
+function Piece(i, j, color, id, isKing, isPlayerTurn) { 
 	this.x_coord = i;	
 	this.y_coord = j;	
 	this.pieceColor = color;	
 	this.id = this.pieceColor + id;	
 	this.king = isKing;
 	
-	self.addPiece = function(){
+	this.addPiece = function() {
 		if (i === null || j === null) {
-			// skip
+			// skip b/c these pieces were jumped and removed from game play
 		}
 		else {		
 			if (this.king == true) {
@@ -248,7 +262,13 @@ function movePiece(newLocation, pieceMoved) {
 		swapTurns = true;	// reset global variable for turn control
 	}
 	else if (gameOver == true) {
-		window.alert("GAME OVER");
+		// redirect to win/ lose screens
+		if (winner == playerNo) {
+			window.location.href = "win.html";
+		}
+		else {
+			window.location.href = "lose.html";
+		}
 	}
 }
 
@@ -351,55 +371,17 @@ function possibleJump(oldI, oldJ, newI, newJ, color, isKing) {
 	var jumpedJ = Math.min(oldJ, newJ) + 1;
 	
 	// search opponent's pieces for those coordinates
-	if (color == "red") {
-		for (i = 0; i < p2Pieces.length; i++) {
-			var currentCoordinates = p2Pieces[i];
-			var currI = currentCoordinates[0];
-			var currJ = currentCoordinates[1];
-			if ((currI == jumpedI) && (currJ == jumpedJ)) {
-				indexToRemove = i;
-				validJump = true;
-				break;
-			}
-		}
-	}
-	else if (color == "black") {
-		for (i = 0; i < p1Pieces.length; i++) {
-			var currentCoordinates = p1Pieces[i];
-			var currI = currentCoordinates[0];
-			var currJ = currentCoordinates[1];
-			if ((currI == jumpedI) && (currJ == jumpedJ)) {
-				indexToRemove = i;
-				validJump = true;
-				break;
-			}
-		}
-	}
+	var searchOpponent = searchPieces(color, true, jumpedI, jumpedJ, validJump, jumpSelf, indexToRemove);
+	validJump = searchOpponent[0];
+	jumpSelf = searchOpponent[1];
+	indexToRemove = searchOpponent[2];
 	
 	// if not in opponent's pieces, search one's own pieces (return error if here)
 	if (validJump == false) {
-		if (color == "red") {
-			for (i = 0; i < p1Pieces.length; i++) {
-				var currentCoordinates = p1Pieces[i];
-				var currI = currentCoordinates[0];
-				var currJ = currentCoordinates[1];
-				if ((currI == jumpedI) && (currJ == jumpedJ)) {
-					jumpSelf = true;
-					break;
-				}
-			}
-		}
-		else if (color == "black") {
-			for (i = 0; i < p2Pieces.length; i++) {
-				var currentCoordinates = p2Pieces[i];
-				var currI = currentCoordinates[0];
-				var currJ = currentCoordinates[1];
-				if ((currI == jumpedI) && (currJ == jumpedJ)) {
-					jumpSelf = true;
-					break;
-				}
-			}
-		}
+		var searchSelf = searchPieces(color, false, jumpedI, jumpedJ, validJump, jumpSelf, indexToRemove);
+		validJump = searchSelf[0];
+		jumpSelf = searchSelf[1];
+		indexToRemove = searchSelf[2];
 	}
 	
 	if (jumpSelf == true) {
@@ -431,6 +413,46 @@ function possibleJump(oldI, oldJ, newI, newJ, color, isKing) {
 	else {
 		return false;
 	}
+}
+
+// searches for a piece being jumped to determine if that piece belongs to the player making the jump or the opponent
+function searchPieces(color, searchOpponent, jumpedI, jumpedJ, vJump, jSelf, iRemove) {
+	var validJump = vJump;
+	var jumpSelf = jSelf;
+	var indexToRemove = iRemove;
+	var currentCoordinates;
+	for (i = 0; i < 12; i++) {
+		if (searchOpponent == true) {
+			if (color == "red") {
+				currentCoordinates = p2Pieces[i];
+			}
+			else if (color == "black") {
+				currentCoordinates = p1Pieces[i];
+			}
+			var currI = currentCoordinates[0];
+			var currJ = currentCoordinates[1];
+			if ((currI == jumpedI) && (currJ == jumpedJ)) {
+				indexToRemove = i;
+				validJump = true;
+				break;
+			}
+		}
+		else {
+			if (color == "red") {
+				currentCoordinates = p1Pieces[i];
+			}
+			else if (color == "black") {
+				currentCoordinates = p2Pieces[i];
+			}
+			var currI = currentCoordinates[0];
+			var currJ = currentCoordinates[1];
+			if ((currI == jumpedI) && (currJ == jumpedJ)) {
+				jumpSelf = true;
+				break;
+			}
+		}
+	}
+	return [validJump, jumpSelf, indexToRemove];
 }
 
 // checks to see if an additional jump could be made after one SUCCESSFUL JUMP before swapping player turns
@@ -750,7 +772,12 @@ function whosTurn() {
 }
 
 function isComplete() {
-	if (numP1Pieces == 0 || numP2Pieces == 0) {
+	if (numP1Pieces == 0) {
+		winner = 2;
+		return true;
+	}
+	else if (numP2Pieces == 0) {
+		winner = 1;
 		return true;
 	}
 	else {

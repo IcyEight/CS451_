@@ -1,4 +1,4 @@
-.board{
+.board {
 	width: 480px;
 	height: 480px;
 	display: inline-block;
@@ -9,25 +9,15 @@
 	background: red;
 }
 
-	.red_tile{
+	.tile {
 		width: 60px;
 		height: 60px;
-		background: #ff0000;
 		display: inline-block;
 		position: absolute;
 		color: #fff;
 	}
 	
-	.black_tile{
-		width: 60px;
-		height: 60px;
-		background: #000000;
-		display: inline-block;
-		position: absolute;
-		color: #fff;
-	}
-	
-	.piece{
+	.piece {
 		width: 45px;
 		height: 45px;
 		border: 2px solid white;
@@ -36,3 +26,11 @@
 		position: absolute;
 		color: #fff;
 	}
+	
+.rotateBoard {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
