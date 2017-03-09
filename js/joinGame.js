@@ -34,12 +34,13 @@ function validateCode() {
 	inputCode = $$("gameCode").getValue();
 	// call post in php
     $.ajax({
+		type: "GET",
+		dataType: "json",
         data: 'code=' + inputCode,
-        url: 'joinGame.php',
-        method: 'POST',
-        success: function(msg) {
-        	console.log(msg[0]);
-        	if(msg[0] == "1")
+        url: "../cgi-bin/addCode.py",
+        success: function(data) {
+        	console.log(data);
+        	if (msg[0] == "1")
         	{
         		directToGame();
         	}
@@ -47,13 +48,17 @@ function validateCode() {
         	{
         		window.alert("More than two players can not play same game.")
         	}
-       
-        }
+        },
+		error: joinGameFailure
     });
 };
 
 function directToGame() {
-	window.location.href = "mainBoard.php";
+	window.location.href = "checkers.html";
+};
+
+function joinGameFailure() {
+	window.alert("Unable to join game.");
 };
 
 function cancel() {

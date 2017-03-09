@@ -66,6 +66,7 @@ $(document).ready(function() {
 	p1Pieces[9] = [2, 2];
 	p1Pieces[10] = [4, 2];
 	p1Pieces[11] = [6, 2];	
+	console.log(p1Pieces);
 	
 	p2Pieces[0] = [1, 5];
 	p2Pieces[1] = [3, 5];

@@ -47,7 +47,7 @@ function toAbout() {
 };
 
 function toNewGame() {
-	window.location.href = "newGame.php";
+	window.location.href = "newGame.html";
 };
 
 function toRules() {
@@ -55,5 +55,5 @@ function toRules() {
 };
 
 function toJoinGame() {
-	window.location.href = "joinGame.php";
+	window.location.href = "joinGame.html";
 };

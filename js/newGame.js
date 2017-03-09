@@ -1,5 +1,5 @@
 var codeGen;
-//var waiting;
+var waiting;
 
 $(window).load(function() {
 	webix.ui({
@@ -19,27 +19,32 @@ $(window).load(function() {
 		width:100,
 		click:cancel
 	});
-	//codeGen = document.getElementById('codeGen');
-	//waiting = document.getElementById('waiting');
-	//generateCode();
+	codeGen = document.getElementById('codeGen');
+	waiting = document.getElementById('waiting');
+	generateCode();
 });
 
-// function generateCode() {
-// 	//var status = " <?php echo $status ?> ";
-// 	codeGenSuccess(status);
-// 	console.log(status);
-// };
+function generateCode() {
+	$.ajax({
+		type: "GET",
+		dataType: "json",
+		url: "../cgi-bin/addCode.py", 
+		success: codeGenSuccess(data),
+		error: codeGenFailure
+    });
+};
 
-// function codeGenSuccess(status) {
-// 	// update HTML content
-// 	codeGen.innerHTML = status;
-// 	//waiting.innerHTML = "Waiting for another player to join.";
-// };
+function codeGenSuccess(data) {
+	// update HTML content
+	console.log(data);
+	codeGen.innerHTML = data;
+	waiting.innerHTML = "Waiting for another player to join.";
+};
 
-// function codeGenFailure() {
-// 	// update HTML content
-// 	codeGen.innerHTML = "Unable to generate a code at this time.  Please try again later."
-// };
+function codeGenFailure() {
+	// update HTML content
+	codeGen.innerHTML = "Unable to generate a code at this time.  Please try again later."
+};
 
 function cancel() {
 	// return to home screen if cancel is pressed
