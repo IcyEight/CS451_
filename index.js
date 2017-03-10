@@ -6,6 +6,7 @@ var numP1;
 var numP2;
 var p1Bool;
 var p2Bool;
+var gameWinner;
 var stateChange = false;
 
 var express = require('express');
@@ -16,7 +17,7 @@ app.get('/',function(req,res){
    res.sendFile(__dirname+'/client/checkers.html');
 });
 app.use('/client',express.static(__dirname+'/client'));
-serv.listen(process.env.PORT);
+serv.listen(7020);
 console.log("Server started.");
 
 var SOCKET_LIST = {};
@@ -40,6 +41,8 @@ io.sockets.on('connection',function(socket){
 		numP2 = data['nP2'];
 		p1Bool = data['p1Bool'];
 		p2Bool = data['p2Bool'];
+		gameWinner = data['w'];
+		console.log(kingStates);
 		stateChange = true;
 	});
 		/*
@@ -89,7 +92,8 @@ setInterval(function() {
 				n1:numP1,
 				n2:numP2,
 				p1B:p1Bool,
-				p2B:p2Bool
+				p2B:p2Bool,
+				winning:gameWinner
 			});
 		}
 		stateChange = false;

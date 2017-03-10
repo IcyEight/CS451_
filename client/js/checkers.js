@@ -98,34 +98,24 @@ setInterval(function() {
 			p2Pieces = data['p2'];
 			kingState = new Array();
 			kingState = data['k'];
-			/*
-			var p1PiecesTemp = data['p1'];
-			var p2PiecesTemp = data['p2'];
-			var kingStateTemp = data['k'];
-			for (i = 0; i < 12; i++) {
-				changedPiece = p1PiecesTemp[i];
-				oldPiece = p1Pieces[i];
-				if ((oldPiece[0] != changedPiece[0]) || (oldPiece[1] != changedPiece[1]))
-				{
-					p1Pieces[i] = changedPiece;
-				}
-
-				changedPiece2 = p2PiecesTemp[i];
-				oldPiece2 = p2Pieces[i];
-				console.log(oldPiece2[1]);
-				console.log(changedPiece2[1]);
-				if((oldPiece2[0] != changedPiece2[0]) || (oldPiece2[1] != changedPiece[1]))
-				{
-					p2Pieces[i] = changedPiece2;
-				}
-			}
-			*/
+			console.log(kingState);
 			playerTurn = checkPlayerChange;
 			numP1Pieces = data['n1'];
 			numP2Pieces = data['n2'];
 			p1Turn = data['p1B'];
-			p2Turn = data['p2B'];	
-			loadBoard();
+			p2Turn = data['p2B'];
+			winner = data['winning'];
+			if (winner === undefined) {	
+				loadBoard();
+			}
+			else {
+				if (winner == playerNo) {
+					window.location.href = "win.html";	
+				}
+				else {
+					window.location.href = "lose.html";
+				}
+			}
 		}
 	});
 },1/100);
@@ -136,8 +126,14 @@ function loadBoard() {
 	board1.outputBoard();
 	
 	// add checkers pieces to game board
+	console.log(p1Pieces);
 	for(i = 0; i < p1Pieces.length; i++) {
 		var coordinates = p1Pieces[i];
+		console.log(coordinates);
+		console.log(coordinates[0]);
+		//allPieces = new Array();
+		console.log(allPieces);
+		console.log(allPieces[i]);
 		allPieces[i] = new Piece(coordinates[0], coordinates[1], 'red', i, kingState[i]);
 		allPieces[i].addPiece();
 	}
@@ -220,6 +216,7 @@ function Piece(i, j, color, id, isKing, isPlayerTurn) {
 		}
 		else {		
 			if (this.king == true) {
+				/*
 				if (playerNo == 1 && this.pieceColor == "red") {
 					$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
 				}
@@ -229,9 +226,11 @@ function Piece(i, j, color, id, isKing, isPlayerTurn) {
 				else {
 					$('#checkersBoard').append('<div class="piece" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
 				}
-				//$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
+				*/
+				$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
 			}
 			else {
+				/*
 				if (playerNo == 1 && this.pieceColor == "red") {
 					$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"></div>');
 				}
@@ -241,7 +240,8 @@ function Piece(i, j, color, id, isKing, isPlayerTurn) {
 				else {
 					$('#checkersBoard').append('<div class="piece" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"></div>');
 				}
-				//$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"></div>');
+				*/
+				$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"></div>');
 			}
 		}
 	};
@@ -333,13 +333,28 @@ function movePiece(newLocation, pieceMoved) {
 			p2:p2Pieces,
 			turn:playerTurn,
 			p1Bool:p1Turn,
-			p2Bool:p2Turn
+			p2Bool:p2Turn,
+			w:winner
 		});
 		socket.emit('turnEnd', pack);
 		loadBoard();
 		swapTurns = true;	// reset global variable for turn control
 	}
 	else if (gameOver == true) {
+		// still need a socket connection to inform other player of game termination
+		var pack = [];
+		pack.push({
+			nP1:numP1Pieces,
+			nP2:numP2Pieces,
+			king:kingState,
+			p1:p1Pieces,
+			p2:p2Pieces,
+			turn:playerTurn,
+			p1Bool:p1Turn,
+			p2Bool:p2Turn,
+			w:winner
+		});
+		socket.emit('turnEnd', pack);
 		// redirect to win/ lose screens
 		if (winner == playerNo) {
 			window.location.href = "win.html";
@@ -447,6 +462,12 @@ function possibleJump(oldI, oldJ, newI, newJ, color, isKing) {
 	// get coordinates of the piece that would have been jumped
 	var jumpedI = Math.min(oldI, newI) + 1;
 	var jumpedJ = Math.min(oldJ, newJ) + 1;
+
+	if ((Math.abs(newI - oldI) != 2) || (Math.abs(newJ - oldJ)) != 2) {
+		// invalid jump - > jumped more than one space
+		validJump = false;
+		return validJump;
+	}
 	
 	// search opponent's pieces for those coordinates
 	var searchOpponent = searchPieces(color, true, jumpedI, jumpedJ, validJump, jumpSelf, indexToRemove);
