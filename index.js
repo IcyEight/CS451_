@@ -16,7 +16,7 @@ app.get('/',function(req,res){
    res.sendFile(__dirname+'/client/checkers.html');
 });
 app.use('/client',express.static(__dirname+'/client'));
-serv.listen(7020);
+serv.listen(process.env.PORT);
 console.log("Server started.");
 
 var SOCKET_LIST = {};
