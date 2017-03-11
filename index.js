@@ -76,8 +76,10 @@ io.sockets.on('connection',function(socket){
 					//console.log("id = "+id);
 					//socket.broadcast.to(id).emit('codeIsValid',true);
 					socket.emit('codeIsValid',true);
-					var player1Socket =  SOCKET_LIST[socket.id];
-					player1Socket.emit('someoneJoined',true);
+					var player1Socket =  SOCKET_LIST[matchlist[i][0]];
+					console.log("socket id = "+socket.id);
+					console.log("player1 socket = "+player1Socket.id);
+					socket.to(player1Socket.id).emit('someoneJoined',true);
 					found = true;
 					break;
 				}

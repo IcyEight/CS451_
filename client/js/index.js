@@ -48,7 +48,8 @@ function toAbout() {
 
 function toNewGame() {
 	// var pNo = 1;
-	// localStorage.setItem("pNumber", pNo);
+	// localStorage.setItem("pNumber", pNo);  // not compatiable when two players are not from
+	// 								// same laptop, same internet browser 
 	// window.location.href = "checkers.html";
 	window.location.href = "newGame.html";
 };

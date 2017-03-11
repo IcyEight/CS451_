@@ -41,13 +41,18 @@ function validateCode() {
 		//console.log("codeIsValid = "+codeIsValid);
 		//window.alert(codeIsValid);
 		if(codeIsValid)
+		{
+			console.log("socket id from joinGame client = "+socket.id)
 			directToGame();
+		}
 		else 
 		 	joinGameFailure();
 	});
 };
 
 function directToGame() {
+	var pNo = 2;
+	localStorage.setItem("pNumber", pNo);
 	window.location.href = "checkers.html";
 };
 

@@ -84,7 +84,7 @@ $(document).ready(function() {
 	p2Pieces[11] = [7, 7];
 	
 	playerNo = localStorage.getItem("pNumber");
-	console.log(playerNo);
+	console.log("playerNo = "+playerNo);
 	loadBoard();
 });
 
@@ -98,7 +98,7 @@ setInterval(function() {
 			p2Pieces = data['p2'];
 			kingState = new Array();
 			kingState = data['k'];
-			console.log(kingState);
+			//console.log(kingState); // mahmuda commented
 			playerTurn = checkPlayerChange;
 			numP1Pieces = data['n1'];
 			numP2Pieces = data['n2'];
@@ -126,14 +126,14 @@ function loadBoard() {
 	board1.outputBoard();
 	
 	// add checkers pieces to game board
-	console.log(p1Pieces);
+	//console.log(p1Pieces); // mahmuda commented
 	for(i = 0; i < p1Pieces.length; i++) {
 		var coordinates = p1Pieces[i];
-		console.log(coordinates);
-		console.log(coordinates[0]);
+		//console.log(coordinates);
+		//console.log(coordinates[0]);
 		//allPieces = new Array();
-		console.log(allPieces);
-		console.log(allPieces[i]);
+		//console.log(allPieces);
+		//console.log(allPieces[i]);
 		allPieces[i] = new Piece(coordinates[0], coordinates[1], 'red', i, kingState[i]);
 		allPieces[i].addPiece();
 	}
@@ -862,12 +862,12 @@ function checkNewKing(j, color) {
 
 function whosTurn() {
 	if (p1Turn == true) {
-		console.log("P1 turn");
+		//console.log("P1 turn");
 	}
 	else if (p2Turn == true) {
-		console.log("P2 turn");
+		//console.log("P2 turn");
 	}
-	console.log("P1 pieces: " + numP1Pieces + "      P2 pieces: " + numP2Pieces);
+	//console.log("P1 pieces: " + numP1Pieces + "      P2 pieces: " + numP2Pieces);
 }
 
 function isComplete() {
