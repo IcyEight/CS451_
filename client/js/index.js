@@ -47,11 +47,11 @@ function toAbout() {
 };
 
 function toNewGame() {
-	var pNo = 1;
-	localStorage.setItem("pNumber", pNo);  // not compatiable when two players are not from
-									// same laptop, same internet browser 
-	window.location.href = "checkers.html";
-	//window.location.href = "newGame.html";
+	// var pNo = 1;
+	// localStorage.setItem("pNumber", pNo);  // With local storage, web applications can store data locally within the user's browser.
+	// // so I thought it will not communicate between two remote browser, however it seems to work just fine 
+	// window.location.href = "checkers.html";
+	window.location.href = "newGame.html";
 };
 
 function toRules() {
@@ -59,8 +59,8 @@ function toRules() {
 };
 
 function toJoinGame() {
-	var pNo = 2;
-	localStorage.setItem("pNumber", pNo);
-	window.location.href = "checkers.html";
-	//window.location.href = "joinGame.html";
+	// var pNo = 2;
+	// localStorage.setItem("pNumber", pNo);
+	// window.location.href = "checkers.html";
+	window.location.href = "joinGame.html";
 };

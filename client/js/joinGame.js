@@ -51,9 +51,10 @@ function validateCode() {
 };
 
 function directToGame() {
-	var pNo = 2;
-	localStorage.setItem("pNumber", pNo);
-	window.location.href = "checkers.html";
+	// var pNo = 2;
+	// localStorage.setItem("pNumber2", pNo);
+	//socket.emit('pNumberFromJoinToServer',2); // always 2. this is getting sent from only joinGame to server to indicate to flip board 360 degree
+	window.location.href = "checkers.html?playerNo=2";
 };
 
 function joinGameFailure() {

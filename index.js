@@ -45,10 +45,16 @@ io.sockets.on('connection',function(socket){
 
 	// newGame.js will send codeGenerated to server
 	socket.on('newGame',function(codeGenerated){
+		// console.log(socket.id+ " from new game server");
 		var temp = [socket.id, null];
 		code = codeGenerated;
 		matchlist[code] = temp;
 	});
+	// socket.on('pNumberFromJoinToServer',function(pNumber){
+	// 	// console.log(socket.id+" from pNumberToServer server");
+	// 	console.log("pNumberToServer "+pNumber);
+	// 	socket.emit('pNumberFromServer',pNumber);
+	// });
     socket.on('newGameDisconnect',function(){
       for(var i in matchlist)
       {

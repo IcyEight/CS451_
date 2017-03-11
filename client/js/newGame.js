@@ -31,28 +31,30 @@ function generateCode() {
 	var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	for(var i=0; i<6; i++)
 	   codeGenerated = codeGenerated.concat(charset[ Math.floor (Math.random() * charset.length) ]); 
-    console.log("socket id from newGame client = "+socket.id)
+    //console.log("socket id from newGame client = "+socket);
     socket.emit('newGame',codeGenerated); // sends code to server
     codeGenSuccess(codeGenerated); /* socket check needed to decide whether 
     								to pass to success or failure function */
+    //console.log("socket id from inside = "+socket.id);
 };
 
 function codeGenSuccess(data) {
 	// update HTML content
-	console.log(data);
+	//console.log(data);
 	codeGen.innerHTML = data;
 	waiting.innerHTML = "Waiting for another player to join.";
 };
 
 socket.on('someoneJoined',function(someoneJoined){
-	console.log("someoneJoined message received");
+	//console.log("socket id from someoneJoined = "+socket.id);
+	//console.log("someoneJoined message received");
 	if(someoneJoined)
 		directToGame();
 });
 
 function codeGenFailure(data) {
 	// update HTML content
-	console.log(data);
+	//console.log(data);
 	codeGen.innerHTML = "Unable to generate a code at this time.  Please try again later."
 };
 
@@ -64,9 +66,11 @@ function cancel() {
 
 // once another player has joined using the code, call this function to direct to the game
 function directToGame() {
-	var pNo = 1;
-	localStorage.setItem("pNumber", pNo);
-	window.location.href = "checkers.html";
+	// var pNo = 1;
+	// localStorage.setItem("pNumber", pNo);
+	//console.log(socket); // wouldn't show as we are console logging to newgame.js but screen will be switched to checkers.js as we are redirecting to checkers.html
+	//socket.emit('pNumberToServer',1);
+	window.location.href = "checkers.html?playerNo=1";
 	/*
 	if code used {
 		go to game screen

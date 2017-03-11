@@ -46,8 +46,20 @@ var swapTurns = true;
 var playerTurn = 1;
 
 // for representing the player (either player1 or player2)
-var playerNo;
-
+//console.log(playerNo);
+//var playerNo;
+function getQueryVariable(variable)
+{
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+}
+playerNo = parseInt(getQueryVariable('playerNo'));
+console.log(playerNo);
 // representing winner of the game
 var winner;
 
@@ -83,9 +95,18 @@ $(document).ready(function() {
 	p2Pieces[10] = [5, 7];
 	p2Pieces[11] = [7, 7];
 	
-	playerNo = localStorage.getItem("pNumber");
-	console.log("playerNo = "+playerNo);
+
+	//playerNo = localStorage.getItem("pNumber");
+	//console.log("playerNo = "+playerNo);
 	loadBoard();
+
+	// var playerNo = 1; // default value
+	// socket.on('pNumberFromServer',function(pNumber){
+	// 	//playerNo = localStorage.getItem("pNumber");
+	// 	playerNo = pNumber; // data = pNumber
+	// 	console.log("playerNo = "+playerNo);
+	// 	loadBoard();
+	// });
 });
 
 setInterval(function() {
