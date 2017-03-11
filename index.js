@@ -11,23 +11,20 @@ var stateChange = false;
 
 var express = require('express');
 var app = express();
-app.use(express.static('client'));
+app.use(express.static('client')); /* this makes client directory
+available and server starts serving content of this directory 
+right away. */
 var serv = require('http').Server(app);
-app.get('/',function(req,res){
-   res.sendFile(__dirname+'/client/checkers.html');
-});
-app.use('/client',express.static(__dirname+'/client'));
-serv.listen(7020);
+serv.listen(process.env.PORT); /* use 'PORT=<portNum> node index.js' on command line */
 console.log("Server started.");
 
 var SOCKET_LIST = {};
-
 var io = require('socket.io')(serv,{});
 
+var matchlist = {};
+
+//Whenever someone connects this gets executed
 io.sockets.on('connection',function(socket){
-   //socket.on('happy',function(data){
-     //    console.log('happy because' + data.reason);
-  // });
 	SOCKET_LIST[socket.id] = socket;
 	socket.on('turnEnd', function(data) {
 		console.log("turn ended");
@@ -45,6 +42,55 @@ io.sockets.on('connection',function(socket){
 		console.log(kingStates);
 		stateChange = true;
 	});
+
+	// newGame.js will send codeGenerated to server
+	socket.on('newGame',function(codeGenerated){
+		var temp = [socket.id, null];
+		code = codeGenerated;
+		matchlist[code] = temp;
+	});
+    socket.on('newGameDisconnect',function(){
+      for(var i in matchlist)
+      {
+      	if(matchlist[i][0] == socket.id)
+      	{
+      		 delete matchlist[i];
+      		 break;
+      	}
+      }
+   });
+
+	socket.on('joinGame',function(inputCode){ /* including myself can join? */
+		//console.log(id);
+		var found = false;
+		console.log(matchlist);
+		for(var i in matchlist)
+		{
+			console.log("here");
+			if(i == inputCode)
+			{
+				if(matchlist[i][1] == null)
+				{
+					matchlist[i][1] = socket.id;
+					//console.log("socket id = "+socket.id);
+					//console.log("id = "+id);
+					//socket.broadcast.to(id).emit('codeIsValid',true);
+					socket.emit('codeIsValid',true);
+					var player1Socket =  SOCKET_LIST[socket.id];
+					player1Socket.emit('someoneJoined',true);
+					found = true;
+					break;
+				}
+			}
+		}
+		console.log(found);
+		if(!found)
+		{ 
+			//console.log("code has been used");
+			//socket.broadcast.to(id).emit('codeIsValid',false);
+			socket.emit('codeIsValid',false);
+		}
+	});
 		/*
 		socket.emit('turnSwap', {
 			p1:player1Pieces,
@@ -56,10 +102,10 @@ io.sockets.on('connection',function(socket){
 			p1B:p1Bool,
 			p2B:p2Bool
 		});
-		/*
+		
 		stateChange = true;
 	});
-	/*
+	
 	setInterval(function() {
 		if (stateChange == true) {
                 	socket.emit('turnSwap', {

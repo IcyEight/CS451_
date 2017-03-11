@@ -1,4 +1,5 @@
 var inputCode;
+var socket = io();
 $(window).load(function() {
 	webix.ui({
 		container:"joinGame",
@@ -32,25 +33,18 @@ $(window).load(function() {
 // call this function when the submit button is pressed
 function validateCode() {
 	inputCode = $$("gameCode").getValue();
-	// call post in php
-    $.ajax({
-		type: "GET",
-		dataType: "json",
-        data: 'code=' + inputCode,
-        url: "../cgi-bin/addCode.py",
-        success: function(data) {
-        	console.log(data);
-        	if (msg[0] == "1")
-        	{
-        		directToGame();
-        	}
-        	else
-        	{
-        		window.alert("More than two players can not play same game.")
-        	}
-        },
-		error: joinGameFailure
-    });
+	//console.log(socket.id);
+	socket.emit('joinGame', inputCode);
+	socket.on('codeIsValid',function(codeIsValid)
+	{
+		//console.log(socket.id);
+		//console.log("codeIsValid = "+codeIsValid);
+		//window.alert(codeIsValid);
+		if(codeIsValid)
+			directToGame();
+		else 
+		 	joinGameFailure();
+	});
 };
 
 function directToGame() {
@@ -58,6 +52,7 @@ function directToGame() {
 };
 
 function joinGameFailure() {
+	//console.log("unable to join game");
 	window.alert("Unable to join game.");
 };
 
