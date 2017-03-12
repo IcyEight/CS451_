@@ -87,7 +87,7 @@ $(document).ready(function() {
 	p2Pieces[10] = [5, 7];
 	p2Pieces[11] = [7, 7];
 	
-	//playerNo = localStorage.getItem("pNumber");
+	playerNo = localStorage.getItem("pNumber");
 	loadBoard();
 	updateTurnDiv();
 });
@@ -456,12 +456,12 @@ function validateMove(oldI, oldJ, newI, newJ, color, isKing) {
 						// check for jump, if no jump, throw error
 						validJump = possibleJump(oldI, oldJ, newI, newJ, color, isKing);
 						if (validJump == false) {
-							window.alert("Invalid move.  Piece can only be moved forwards 1 tile.");
+							window.alert("Invalid move.  Piece can only be moved along the diagonal and forwards 1 tile unless jumping an adjacent opponent's piece.");
 							return false;
 						}
 					}
 					else if ((Math.abs(newI - oldI) != 1) || (Math.abs(newJ - oldJ) != 1)) {
-						window.alert("Invalid move.  Piece must be moved along the diagonal.");
+						window.alert("Invalid move.  Piece can only be moved along the diagonal and forwards 1 tile unless jumping an adjacent opponent's piece.");
 						return false;
 					}
 				}
@@ -485,12 +485,12 @@ function validateMove(oldI, oldJ, newI, newJ, color, isKing) {
 						// check for jump, if no jump, throw error
 						validJump = possibleJump(oldI, oldJ, newI, newJ, color, isKing);
 						if (validJump == false) {
-							window.alert("Invalid move.  Piece can only be moved forwards 1 tile.");
+							window.alert("Invalid move.  Piece can only be moved along the diagonal and forwards 1 tile unless jumping an adjacent opponent's piece.");
 							return false;
 						}
 					}
 					else if ((Math.abs(newI - oldI) != 1) || (Math.abs(newJ - oldJ) != 1)) {
-						window.alert("Invalid move.  Piece must be moved along the diagonal.");
+						window.alert("Invalid move.  Piece can only be moved along the diagonal and forwards 1 tile unless jumping an adjacent opponent's piece.");
 						return false;
 					}
 				}
@@ -511,12 +511,12 @@ function validateMove(oldI, oldJ, newI, newJ, color, isKing) {
 						// check for jump, if no jump, throw error
 						validJump = possibleJump(oldI, oldJ, newI, newJ, color, isKing);
 						if (validJump == false) {
-							window.alert("Invalid move.  A kinged piece can only be moved 1 tile.");
+							window.alert("Invalid move.  A kinged piece can only be moved along the diagonal 1 tile unless jumping an adjacent opponent's piece.");
 							return false;
 						}
 					}
 					else if ((Math.abs(newI - oldI) != 1) || (Math.abs(newJ - oldJ) != 1)) {
-						window.alert("Invalid move.  Piece must be moved along the diagonal.");
+						window.alert("Invalid move.  A kinged piece can only be moved along the diagonal 1 tile unless jumping an adjacent opponent's piece.");
 						return false;
 					}
 			}
