@@ -154,6 +154,17 @@ function updateTurnDiv() {
 }
 
 function loadBoard() {
+	// check for completed game before redrawing board
+	var gameOver = isComplete();
+	if (gameOver == true) {
+		if (winner == playerNo) {
+			window.location.href = "win.html";	
+		}
+		else {
+			window.location.href = "lose.html";
+		}
+	}
+	
 	// draw board
 	whosTurn();
 	board1.outputBoard();
@@ -976,16 +987,3 @@ function isComplete() {
 		return false;
 	}
 }
-
-// constant function to check for game completion after game has terminated on other client
-setInterval(function() {
-	var gameOver = isComplete();
-	if (gameOver == true) {
-		if (winner == playerNo) {
-			window.location.href = "win.html";	
-		}
-		else {
-			window.location.href = "lose.html";
-		}
-	}
-},1/100);
