@@ -49,7 +49,7 @@ var playerTurn = 1;
 var forceJump = false;
 
 // for representing the player of each individual machine (either player1 or player2)
-var playerNo = 2;
+var playerNo = 1;
 
 // representing winner of the game
 var winner;
@@ -88,7 +88,6 @@ $(document).ready(function() {
 	p2Pieces[11] = [7, 7];
 	
 	playerNo = localStorage.getItem("pNumber");
-	console.log(playerNo);
 	loadBoard();
 	updateTurnDiv();
 });
@@ -103,7 +102,6 @@ setInterval(function() {
 			p2Pieces = data['p2'];
 			kingState = new Array();
 			kingState = data['k'];
-			console.log(kingState);
 			playerTurn = checkPlayerChange;
 			numP1Pieces = data['n1'];
 			numP2Pieces = data['n2'];
@@ -147,18 +145,12 @@ function loadBoard() {
 	board1.outputBoard();
 	
 	// add checkers pieces to game board
-	console.log(p1Pieces);
-	for(i = 0; i < p1Pieces.length; i++) {
+	for (i = 0; i < p1Pieces.length; i++) {
 		var coordinates = p1Pieces[i];
-		console.log(coordinates);
-		console.log(coordinates[0]);
-		//allPieces = new Array();
-		console.log(allPieces);
-		console.log(allPieces[i]);
 		allPieces[i] = new Piece(coordinates[0], coordinates[1], 'red', i, kingState[i]);
 		allPieces[i].addPiece();
 	}
-	for(i = 0; i < p2Pieces.length; i++) {
+	for (i = 0; i < p2Pieces.length; i++) {
 		var coordinates = p2Pieces[i];
 		allPieces[i + p2Pieces.length] = new Piece(coordinates[0], coordinates[1], 'black', i + p2Pieces.length, kingState[i + p2Pieces.length]);
 		allPieces[i + p2Pieces.length].addPiece();
@@ -237,31 +229,9 @@ function Piece(i, j, color, id, isKing, isPlayerTurn) {
 		}
 		else {		
 			if (this.king == true) {
-				/*
-				if (playerNo == 1 && this.pieceColor == "red") {
-					$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
-				}
-				else if (playerNo == 2 && this.pieceColor == "black") {
-					$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
-				}
-				else {
-					$('#checkersBoard').append('<div class="piece" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
-				}
-				*/
 				$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
 			}
 			else {
-				/*
-				if (playerNo == 1 && this.pieceColor == "red") {
-					$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"></div>');
-				}
-				else if (playerNo == 2 && this.pieceColor == "black") {
-					$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"></div>');
-				}
-				else {
-					$('#checkersBoard').append('<div class="piece" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"></div>');
-				}
-				*/
 				$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"></div>');
 			}
 		}
@@ -413,7 +383,7 @@ function validateMove(oldI, oldJ, newI, newJ, color, isKing) {
 						return false;
 					}
 					else if (Math.abs(newJ - oldJ) == Math.abs(newI - oldI)) {
-						// CHECK FOR JUMP, IF NO JUMP THROW ERROR
+						// check for jump, if no jump, throw error
 						validJump = possibleJump(oldI, oldJ, newI, newJ, color, isKing);
 						if (validJump == false) {
 							window.alert("Invalid move.  Piece can only be moved forwards 1 tile.");
@@ -442,7 +412,7 @@ function validateMove(oldI, oldJ, newI, newJ, color, isKing) {
 						return false;
 					}
 					else if (Math.abs(newJ - oldJ) == Math.abs(newI - oldI)) {
-						// CHECK FOR JUMP, IF NO JUMP THROW ERROR
+						// check for jump, if no jump, throw error
 						validJump = possibleJump(oldI, oldJ, newI, newJ, color, isKing);
 						if (validJump == false) {
 							window.alert("Invalid move.  Piece can only be moved forwards 1 tile.");
@@ -468,7 +438,7 @@ function validateMove(oldI, oldJ, newI, newJ, color, isKing) {
 			}
 			else {
 					if (Math.abs(newJ - oldJ) == Math.abs(newI - oldI)) {
-						// CHECK FOR JUMP, IF NO JUMP THROW ERROR
+						// check for jump, if no jump, throw error
 						validJump = possibleJump(oldI, oldJ, newI, newJ, color, isKing);
 						if (validJump == false) {
 							window.alert("Invalid move.  A kinged piece can only be moved 1 tile.");

@@ -25,9 +25,6 @@ var SOCKET_LIST = {};
 var io = require('socket.io')(serv,{});
 
 io.sockets.on('connection',function(socket){
-   //socket.on('happy',function(data){
-     //    console.log('happy because' + data.reason);
-  // });
 	SOCKET_LIST[socket.id] = socket;
 	socket.on('turnEnd', function(data) {
 		console.log("turn ended");
@@ -45,38 +42,6 @@ io.sockets.on('connection',function(socket){
 		console.log(kingStates);
 		stateChange = true;
 	});
-		/*
-		socket.emit('turnSwap', {
-			p1:player1Pieces,
-			p2:player2Pieces,
-			k:kingStates,
-			t:playerTurn,
-			n1:numP1,
-			n2:numP2,
-			p1B:p1Bool,
-			p2B:p2Bool
-		});
-		/*
-		stateChange = true;
-	});
-	/*
-	setInterval(function() {
-		if (stateChange == true) {
-                	socket.emit('turnSwap', {
-                        	p1:player1Pieces,
-                        	p2:player2Pieces,
-                        	k:kingStates,
-                        	t:playerTurn,
-                        	n1:numP1,
-                       		n2:numP2,
-                        	p1B:p1Bool,
-                        	p2B:p2Bool
-                });
-                stateChange = false;
-                console.log("swapped");
-       		}
-	},1000/25);
-	*/
 });
 
 
