@@ -70,7 +70,7 @@ function directToGame() {
 	// localStorage.setItem("pNumber", pNo);
 	//console.log(socket); // wouldn't show as we are console logging to newgame.js but screen will be switched to checkers.js as we are redirecting to checkers.html
 	//socket.emit('pNumberToServer',1);
-	window.location.href = "checkers.html?playerNo=1";
+	window.location.href = "checkers.html?playerNo=1&inputCode="+codeGen.innerHTML;
 	/*
 	if code used {
 		go to game screen

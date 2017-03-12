@@ -58,14 +58,17 @@ function getQueryVariable(variable)
        }
        return(false);
 }
-playerNo = parseInt(getQueryVariable('playerNo'));
-console.log(playerNo);
+var playerNo = parseInt(getQueryVariable('playerNo'));
+//console.log(playerNo);
+var inputCode = getQueryVariable('inputCode');
 // representing winner of the game
 var winner;
 
 var socket = io();
 
 $(document).ready(function() {
+	
+	socket.emit('checkers',inputCode);
 	// initialize new board
 	board1 = Board.getInstance();
 

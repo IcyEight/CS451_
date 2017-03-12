@@ -54,7 +54,7 @@ function directToGame() {
 	// var pNo = 2;
 	// localStorage.setItem("pNumber2", pNo);
 	//socket.emit('pNumberFromJoinToServer',2); // always 2. this is getting sent from only joinGame to server to indicate to flip board 360 degree
-	window.location.href = "checkers.html?playerNo=2";
+	window.location.href = "checkers.html?playerNo=2&inputCode="+inputCode;
 };
 
 function joinGameFailure() {
@@ -63,5 +63,8 @@ function joinGameFailure() {
 };
 
 function cancel() {
+	/* no need to send socket.emit to server as newGame cancel() 
+	in newGame.js does as we do not need to change value in 
+	matchlist if someone are not willing to join  */
 	window.location.href = "index.html";
 };
