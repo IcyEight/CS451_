@@ -87,7 +87,7 @@ $(document).ready(function() {
 	p2Pieces[10] = [5, 7];
 	p2Pieces[11] = [7, 7];
 	
-	playerNo = localStorage.getItem("pNumber");
+	//playerNo = localStorage.getItem("pNumber");
 	loadBoard();
 	updateTurnDiv();
 });
@@ -258,7 +258,6 @@ function Piece(i, j, color, id, isKing, isPlayerTurn) {
 		else {		
 			if (this.king == true) {
 				if (playerNo == 1) {
-					$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
 					if (playerNo == 1 && this.pieceColor == "red") {
 						$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
 					}
