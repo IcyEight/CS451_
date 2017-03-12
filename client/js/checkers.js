@@ -45,12 +45,16 @@ var p2Turn = false;
 var swapTurns = true;
 var playerTurn = 1;
 
-// for representing the player (either player1 or player2)
-var playerNo;
+// for forcing the user to make a multiple jump instead of any other move when a multiple jump is available
+var forceJump = false;
+
+// for representing the player of each individual machine (either player1 or player2)
+var playerNo = 2;
 
 // representing winner of the game
 var winner;
 
+// for linking the game between two machines
 var socket = io();
 
 $(document).ready(function() {
@@ -86,6 +90,7 @@ $(document).ready(function() {
 	playerNo = localStorage.getItem("pNumber");
 	console.log(playerNo);
 	loadBoard();
+	updateTurnDiv();
 });
 
 setInterval(function() {
@@ -107,6 +112,7 @@ setInterval(function() {
 			winner = data['winning'];
 			if (winner === undefined) {	
 				loadBoard();
+				updateTurnDiv();
 			}
 			else {
 				if (winner == playerNo) {
@@ -119,6 +125,21 @@ setInterval(function() {
 		}
 	});
 },1/100);
+
+function updateTurnDiv() {
+	var content = document.getElementById("playTurn");
+	content.innerHTML = "";
+	var text = "Player " + playerTurn.toString() + "'s Turn";
+	var turnTracker = new webix.ui({
+		container:"playTurn",
+		body:{
+			template:"<span style='font-size:24px;'></span>"
+		},
+		rows:[
+			{type:"header", template:text, width:140}
+		]
+	});
+}
 
 function loadBoard() {
 	// draw board
@@ -322,6 +343,7 @@ function movePiece(newLocation, pieceMoved) {
 				p2Turn = false;
 				playerTurn = 1;
 			}
+			forceJump = false;	// reset global variable for movement control
 		}
 		// SOCKET IO
 		var pack = [];
@@ -338,6 +360,7 @@ function movePiece(newLocation, pieceMoved) {
 		});
 		socket.emit('turnEnd', pack);
 		loadBoard();
+		updateTurnDiv();
 		swapTurns = true;	// reset global variable for turn control
 	}
 	else if (gameOver == true) {
@@ -376,7 +399,12 @@ function validateMove(oldI, oldJ, newI, newJ, color, isKing) {
 		if (isKing == false) {
 			if (color == "red") {
 				if ((newJ > oldJ) && (Math.abs(newJ - oldJ) == 1) && (Math.abs(newI - oldI) == 1)) {
-					normalMoveValid = true;
+					if (forceJump == true) {
+						window.alert("Invalid move.  Must jump opponent's piece when multiple jumps are available.");
+					}
+					else {
+						normalMoveValid = true;
+					}
 				}
 				else {
 					// invalid move, provide error message
@@ -400,7 +428,12 @@ function validateMove(oldI, oldJ, newI, newJ, color, isKing) {
 			}
 			else if (color == "black") {
 				if ((oldJ > newJ) && (Math.abs(newJ - oldJ) == 1) && (Math.abs(newI - oldI) == 1)) {
-					normalMoveValid = true;
+					if (forceJump == true) {
+						window.alert("Invalid move.  Must jump opponent's piece when multiple jumps are available.");
+					}
+					else {
+						normalMoveValid = true;
+					}
 				}
 				else {
 					// invalid move, provide error message
@@ -426,7 +459,12 @@ function validateMove(oldI, oldJ, newI, newJ, color, isKing) {
 		else {
 			// validation for kinged pieces (check for diagonal and jumps)
 			if ((Math.abs(newJ - oldJ) == 1) && (Math.abs(newI - oldI) == 1)) {
-				normalMoveValid = true;
+				if (forceJump == true) {
+					window.alert("Invalid move.  Must jump opponent's piece when multiple jumps are available.");
+				}
+				else {
+					normalMoveValid = true;
+				}
 			}
 			else {
 					if (Math.abs(newJ - oldJ) == Math.abs(newI - oldI)) {
@@ -506,6 +544,7 @@ function possibleJump(oldI, oldJ, newI, newJ, color, isKing) {
 		if (additionalJumps == true) {
 			window.alert("Additional Jump Detected :)");
 			swapTurns = false;
+			forceJump = true;
 		}
 		return true;
 	}
@@ -610,8 +649,8 @@ function multipleJumps(i, j, isKing, color) {
 					var pieceI = coordinates[0];
 					var pieceJ = coordinates[1];
 					if ((pieceI == checkI1) && (pieceJ == checkJ2)) {					
-						var primeI = checkI1 - 1;
-						var primeJ = checkJ2 + 1;
+						var primeI = checkI1 + 1;
+						var primeJ = checkJ2 - 1;
 						if ((primeI >= 0 && primeI <= 7) && (primeJ >= 0 && primeJ <= 7)) {
 						
 							isTileOpen = tileOpen(primeI, primeJ);
@@ -692,8 +731,8 @@ function multipleJumps(i, j, isKing, color) {
 					var pieceI = coordinates[0];
 					var pieceJ = coordinates[1];
 					if ((pieceI == checkI1) && (pieceJ == checkJ2)) {
-						var primeI = checkI1 - 1;
-						var primeJ = checkJ2 + 1;
+						var primeI = checkI1 + 1;
+						var primeJ = checkJ2 - 1;
 						if ((primeI >= 0 && primeI <= 7) && (primeJ >= 0 && primeJ <= 7)) {
 						
 							isTileOpen = tileOpen(primeI, primeJ);
@@ -883,3 +922,16 @@ function isComplete() {
 		return false;
 	}
 }
+
+// constant function to check for game completion after game has terminated on other client
+setInterval(function() {
+	var gameOver = isComplete();
+	if (gameOver == true) {
+		if (winner == playerNo) {
+			window.location.href = "win.html";	
+		}
+		else {
+			window.location.href = "lose.html";
+		}
+	}
+},1/100);
