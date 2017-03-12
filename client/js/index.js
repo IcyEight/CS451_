@@ -47,10 +47,10 @@ function toAbout() {
 };
 
 function toNewGame() {
-	var pNo = 1;
-	localStorage.setItem("pNumber", pNo);
-	window.location.href = "checkers.html";
-	//window.location.href = "newGame.html";
+	// var pNo = 1;
+	// localStorage.setItem("pNumber", pNo);
+	// window.location.href = "checkers.html";
+	window.location.href = "newGame.html";
 };
 
 function toRules() {
@@ -58,8 +58,5 @@ function toRules() {
 };
 
 function toJoinGame() {
-	var pNo = 2;
-	localStorage.setItem("pNumber", pNo);
-	window.location.href = "checkers.html";
-	//window.location.href = "joinGame.html";
+	window.location.href = "joinGame.html";
 };

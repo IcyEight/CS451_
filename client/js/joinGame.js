@@ -28,33 +28,25 @@ $(window).load(function() {
 		click:cancel
 	});
 });
-
+var socket  = io();
 // call this function when the submit button is pressed
 function validateCode() {
 	inputCode = $$("gameCode").getValue();
-	// call post in php
-    $.ajax({
-		type: "GET",
-		dataType: "json",
-        data: 'code=' + inputCode,
-        url: "../cgi-bin/addCode.py",
-        success: function(data) {
-        	console.log(data);
-        	if (msg[0] == "1")
-        	{
-        		directToGame();
-        	}
-        	else
-        	{
-        		window.alert("More than two players can not play same game.")
-        	}
-        },
-		error: joinGameFailure
-    });
+	socket.emit('joinGame', inputCode);
+	socket.on('codeIsValid',function(codeIsValid)
+	{
+		if(codeIsValid)
+		{
+			console.log("socket id from joinGame client = "+socket.id)
+			directToGame();
+		}
+		else 
+		 	joinGameFailure();
+	});
 };
 
 function directToGame() {
-	window.location.href = "checkers.html";
+	window.location.href = "checkers.html?playerNo=2&inputCode="+inputCode;
 };
 
 function joinGameFailure() {
@@ -62,5 +54,8 @@ function joinGameFailure() {
 };
 
 function cancel() {
+	/* no need to send socket.emit to server as newGame cancel() 
+	in newGame.js does as we do not need to change value in 
+	matchlist if someone are not willing to join  */
 	window.location.href = "index.html";
 };

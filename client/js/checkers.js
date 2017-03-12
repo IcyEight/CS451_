@@ -49,7 +49,7 @@ var playerTurn = 1;
 var forceJump = false;
 
 // for representing the player of each individual machine (either player1 or player2)
-var playerNo = 1;
+//var playerNo = 1;
 
 // representing winner of the game
 var winner;
@@ -57,7 +57,21 @@ var winner;
 // for linking the game between two machines
 var socket = io();
 
+function getQueryVariable(variable)
+{
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+}
+var playerNo = parseInt(getQueryVariable('playerNo'));
+var inputCode = getQueryVariable('inputCode');
+
 $(document).ready(function() {
+	socket.emit('checkers',inputCode);
 	// initialize new board
 	board1 = Board.getInstance();
 
@@ -87,7 +101,7 @@ $(document).ready(function() {
 	p2Pieces[10] = [5, 7];
 	p2Pieces[11] = [7, 7];
 	
-	playerNo = localStorage.getItem("pNumber");
+	//playerNo = localStorage.getItem("pNumber");
 	loadBoard();
 	updateTurnDiv();
 });

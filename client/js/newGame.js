@@ -24,49 +24,40 @@ $(window).load(function() {
 	generateCode();
 });
 
+var socket = io();
 function generateCode() {
-	jQuery.get("../gameState/codes.txt", function(data) {
-		window.alert(data);
-	});
-	/*
-	$.ajax({
-		url: "../bec46/cgi-bin/addCode.py",
-		type: "POST",
-		contentType: "application/json",
-		async: false,
-		success: function (data) {
-			console.log(data)
-		},
-		error: function (data) {
-			console.log(data)
-		}
-    });
-	*/
+	var codeGenerated = "";
+	var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	for(var i=0; i<6; i++)
+	   codeGenerated = codeGenerated.concat(charset[ Math.floor (Math.random() * charset.length) ]); 
+    socket.emit('newGame',codeGenerated); // sends code to server
+    /* socket check needed to decide whether to pass to success or failure function */
+    codeGenSuccess(codeGenerated); 
 };
 
 function codeGenSuccess(data) {
 	// update HTML content
-	console.log(data);
 	codeGen.innerHTML = data;
 	waiting.innerHTML = "Waiting for another player to join.";
 };
 
+socket.on('someoneJoined',function(someoneJoined){
+	if(someoneJoined)
+		directToGame();
+});
+
 function codeGenFailure(data) {
 	// update HTML content
-	console.log(data);
 	codeGen.innerHTML = "Unable to generate a code at this time.  Please try again later."
 };
 
 function cancel() {
 	// return to home screen if cancel is pressed
+	socket.emit('newGameDisconnect');
 	window.location.href = "index.html";
 };
 
 // once another player has joined using the code, call this function to direct to the game
 function directToGame() {
-	/*
-	if code used {
-		go to game screen
-	}
-	*/
+	window.location.href = "checkers.html?playerNo=1&inputCode="+codeGen.innerHTML;
 };
