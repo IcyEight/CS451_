@@ -180,28 +180,56 @@ Board = function() {
 			var tileCode = gameBoard[j][i];
 			var pieceCode = piecesLocations[j][i];
 			var id = i.toString() + j.toString();
-			if (tileCode == 0) {
-				if (pieceCode == 2 || pieceCode == 3) {
-					// no drop ability
-					$('#checkersBoard').append('<div class="tile" id="' + id + '" style="background: #ff0000; left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
+			if (playerNo == 1) {
+				if (tileCode == 0) {
+					if (pieceCode == 2 || pieceCode == 3) {
+						// no drop ability
+						$('#checkersBoard').append('<div class="tile" id="' + id + '" style="background: #ff0000; left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
+					}
+					else {
+						// drop ability
+						$('#checkersBoard').append('<div class="tile" id="' + id + '" ondrop="drop(event)" ondragover="allowDrop(event)" style="background: #ff0000; left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
+					}
 				}
-				else {
-					// drop ability
-					$('#checkersBoard').append('<div class="tile" id="' + id + '" ondrop="drop(event)" ondragover="allowDrop(event)" style="background: #ff0000; left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
+				else if (tileCode == 1) {
+					if (pieceCode == 2 || pieceCode == 3) {
+						// no drop ability
+						$('#checkersBoard').append('<div class="tile" id="' + id + '" style="background: #000000; left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
+					}
+					else if ((j == 3 || j == 4) && (tileCode == 1 && pieceCode == 1)) {
+						// no drop ability
+						$('#checkersBoard').append('<div class="tile" id="' + id + '" style="background: #000000; left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
+					}
+					else {
+						// drop ability
+						$('#checkersBoard').append('<div class="tile" id="' + id + '" ondrop="drop(event)" ondragover="allowDrop(event)" style="background: #000000; left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
+					}
 				}
 			}
-			else if (tileCode == 1) {
-				if (pieceCode == 2 || pieceCode == 3) {
-					// no drop ability
-					$('#checkersBoard').append('<div class="tile" id="' + id + '" style="background: #000000; left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
+			else if (playerNo == 2) {
+				if (tileCode == 0) {
+					if (pieceCode == 2 || pieceCode == 3) {
+						// no drop ability
+						$('#checkersBoard').append('<div class="tile" id="' + id + '" style="background: #ff0000; left: ' + ((leftOffset - 25) + (i * 60)) + 'px; top: ' + (510 - (j * 60)) + 'px"></div>');
+					}
+					else {
+						// drop ability
+						$('#checkersBoard').append('<div class="tile" id="' + id + '" ondrop="drop(event)" ondragover="allowDrop(event)" style="background: #ff0000; left: ' + ((leftOffset - 25) + (i * 60)) + 'px; top: ' + (510 - (j * 60)) + 'px"></div>');
+					}
 				}
-				else if ((j == 3 || j == 4) && (tileCode == 1 && pieceCode == 1)) {
-					// no drop ability
-					$('#checkersBoard').append('<div class="tile" id="' + id + '" style="background: #000000; left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
-				}
-				else {
-					// drop ability
-					$('#checkersBoard').append('<div class="tile" id="' + id + '" ondrop="drop(event)" ondragover="allowDrop(event)" style="background: #000000; left: ' + (leftOffset + (i * 60)) + 'px; top: ' + (480 - (j * 60)) + 'px"></div>');
+				else if (tileCode == 1) {
+					if (pieceCode == 2 || pieceCode == 3) {
+						// no drop ability
+						$('#checkersBoard').append('<div class="tile" id="' + id + '" style="background: #000000; left: ' + ((leftOffset - 25) + (i * 60)) + 'px; top: ' + (510 - (j * 60)) + 'px"></div>');
+					}
+					else if ((j == 3 || j == 4) && (tileCode == 1 && pieceCode == 1)) {
+						// no drop ability
+						$('#checkersBoard').append('<div class="tile" id="' + id + '" style="background: #000000; left: ' + ((leftOffset - 25) + (i * 60)) + 'px; top: ' + (510 - (j * 60)) + 'px"></div>');
+					}
+					else {
+						// drop ability
+						$('#checkersBoard').append('<div class="tile" id="' + id + '" ondrop="drop(event)" ondragover="allowDrop(event)" style="background: #000000; left: ' + ((leftOffset - 25) + (i * 60)) + 'px; top: ' + (510 - (j * 60)) + 'px"></div>');
+					}
 				}
 			}
 		}
@@ -230,6 +258,7 @@ function Piece(i, j, color, id, isKing, isPlayerTurn) {
 		else {		
 			if (this.king == true) {
 				if (playerNo == 1) {
+					$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
 					if (playerNo == 1 && this.pieceColor == "red") {
 						$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
 					}
@@ -242,25 +271,38 @@ function Piece(i, j, color, id, isKing, isPlayerTurn) {
 				}
 				else if (playerNo == 2) {
 					if (playerNo == 1 && this.pieceColor == "red") {
-						$('#checkersBoard').append('<div class="p2KingPiece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
+						$('#checkersBoard').append('<div class="p2KingPiece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + ((leftOffset - 25) + (this.x_coord * 60) + 5) + 'px; top: ' + (510 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
 					}
 					else if (playerNo == 2 && this.pieceColor == "black") {
-						$('#checkersBoard').append('<div class="p2KingPiece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
+						$('#checkersBoard').append('<div class="p2KingPiece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + ((leftOffset - 25) + (this.x_coord * 60) + 5) + 'px; top: ' + (510 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
 					}
 					else {
-						$('#checkersBoard').append('<div class="p2KingPiece" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
+						$('#checkersBoard').append('<div class="p2KingPiece" id="' + this.id + '" style="left: ' + ((leftOffset - 25) + (this.x_coord * 60) + 5) + 'px; top: ' + (510 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"><img id="' + this.id + '" height="100%" src="kingy.png"/></div>');
 					}
 				}
 			}
 			else {
-				if (playerNo == 1 && this.pieceColor == "red") {
-					$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"></div>');
+				if (playerNo == 1) {
+					if (playerNo == 1 && this.pieceColor == "red") {
+						$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"></div>');
+					}
+					else if (playerNo == 2 && this.pieceColor == "black") {
+						$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"></div>');
+					}
+					else {
+						$('#checkersBoard').append('<div class="piece" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"></div>');
+					}
 				}
-				else if (playerNo == 2 && this.pieceColor == "black") {
-					$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"></div>');
-				}
-				else {
-					$('#checkersBoard').append('<div class="piece" id="' + this.id + '" style="left: ' + (leftOffset + (this.x_coord * 60) + 5) + 'px; top: ' + (480 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"></div>');
+				else if (playerNo == 2) {
+					if (playerNo == 1 && this.pieceColor == "red") {
+						$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + ((leftOffset - 25) + (this.x_coord * 60) + 5) + 'px; top: ' + (510 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"></div>');
+					}
+					else if (playerNo == 2 && this.pieceColor == "black") {
+						$('#checkersBoard').append('<div class="piece" draggable="true" ondragstart="drag(event)" id="' + this.id + '" style="left: ' + ((leftOffset - 25) + (this.x_coord * 60) + 5) + 'px; top: ' + (510 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"></div>');
+					}
+					else {
+						$('#checkersBoard').append('<div class="piece" id="' + this.id + '" style="left: ' + ((leftOffset - 25) + (this.x_coord * 60) + 5) + 'px; top: ' + (510 - ((this.y_coord * 60) - 5)) + 'px; background: ' + this.pieceColor + '"></div>');
+					}
 				}
 			}
 		}
