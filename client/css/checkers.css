@@ -27,6 +27,22 @@
 		color: #fff;
 	}
 	
+	.p2KingPiece {
+		width: 45px;
+		height: 45px;
+		border: 2px solid white;
+		border-radius: 45px;
+		display: inline-block;
+		position: absolute;
+		color: #fff;
+		-webkit-transform: rotate(180deg);
+		-moz-transform: rotate(180deg);
+		-o-transform: rotate(180deg);
+		-ms-transform: rotate(180deg);
+		transform: rotate(180deg);
+	}
+	
+	
 .rotateBoard {
     -webkit-transform: rotate(180deg);
     -moz-transform: rotate(180deg);
