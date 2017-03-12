@@ -49,7 +49,7 @@ var playerTurn = 1;
 var forceJump = false;
 
 // for representing the player of each individual machine (either player1 or player2)
-var playerNo = 2;
+var playerNo = 1;
 
 // representing winner of the game
 var winner;
@@ -87,7 +87,7 @@ $(document).ready(function() {
 	p2Pieces[10] = [5, 7];
 	p2Pieces[11] = [7, 7];
 	
-	//playerNo = localStorage.getItem("pNumber");
+	playerNo = localStorage.getItem("pNumber");
 	loadBoard();
 	updateTurnDiv();
 });
