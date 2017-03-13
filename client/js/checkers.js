@@ -987,3 +987,29 @@ function isComplete() {
 		return false;
 	}
 }
+
+// socket.on('won',function(iwon_){
+// //	console.log("i am redirecting to win or lose html with iwon value ="+iwon_);
+// 	if(iwon_)
+		
+// 		window.location.href = "win.html";
+// 	else
+// 		window.location.href = "lose.html";
+// });
+
+// var update = setInterval(function(){
+// 	var gameOver = isComplete();
+// 	var iwon = (winner == playerNo);
+// 	//console.log("iwon result = "+iwon);
+// 	if(gameOver)
+// 	{
+// 		//console.log("game is over");
+// 		clearinterval(update);
+// 		socket.emit('gameOver',{
+// 			playerNo : playerNo,
+// 			inputCode : inputCode,
+// 			iwon : iwon
+// 		});
+// 	}
+//  },40); // need clearinterval
+

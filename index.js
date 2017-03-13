@@ -69,8 +69,39 @@ io.sockets.on('connection',function(socket){
 			socket.disconnect();
 	});
 
+
+	// socket.on('gameOver',function(data){
+	// 	var playerNo_ = data.playerNo;
+	// 	var inputCode_ = data.inputCode;
+	// 	var iwon_ = data.iwon;
+	// 	console.log("playerNo_ = "+playerNo_+", inputCode_ = " +inputCode_+", iwon_ = " + iwon_);
+	// 	for(var i in matchlist)
+	// 	{
+	// 		if(i == inputCode_)
+	// 		{/* p1 sent the gameover message  */
+	// 			if(matchlist[i][3] == socket.id && playerNo_ == 1) // p1 won
+	// 			{
+	// 				console.log("p1 iWon ="+iwon_);
+	// 				if(iwon_)
+	// 				{
+	// 					socket.to(matchlist[i][4]).emit('won',false);
+	// 					socket.to(socket.id).emit('won',iwon_);
+	// 				}
+	// 			} /* p2 sent the gameover message  */
+	// 			else if(matchlist[i][4] == socket.id && playerNo_ == 2) // p2 won
+	// 			{
+	// 				if(iwon_)
+	// 				{
+	// 					socket.to(matchlist[i][4]).emit('won',false);
+	// 					socket.to(socket.id).emit('won',iwon_);
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// });
+
 	socket.on('turnEnd', function(data) {
-		console.log("turn ended");
+		//console.log("turn ended");
 		// update all global variables
 		data = data[0];
 		player1Pieces = data['p1'];
